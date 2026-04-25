@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ──────────────────────────────────────────────────── */
+:root {
+  --neon-cyan:   #00f5ff;
+  --neon-purple: #bf00ff;
+  --neon-green:  #00ff88;
+  --neon-orange: #ff6b00;
+  --neon-yellow: #ffbe00;
+  --grid-line:   rgba(255, 255, 255, 0.028);
+}
+
+/* ── Base Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; }
+
+/* ── Global Body — 2026 Dark + Grid ────────────────────────────────────────── */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f1f5f9;
+  min-height: 100vh;
+  background-color: #030712;
+  background-image:
+    /* Subtle grid */
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    /* Ambient neon glow — top-left cyan */
+    radial-gradient(ellipse 55% 45% at 0% 0%, rgba(0, 245, 255, 0.07) 0%, transparent 65%),
+    /* Ambient neon glow — bottom-right purple */
+    radial-gradient(ellipse 55% 45% at 100% 100%, rgba(191, 0, 255, 0.07) 0%, transparent 65%);
+  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+}
+
+/* ── Component Layer ─────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Glassmorphism base card */
+  .glass-card {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.055) 0%,
+      rgba(255, 255, 255, 0.018) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* ── Neon text helpers ──────────────────────────────────────────────────── */
+  .neon-cyan   { color: var(--neon-cyan);   text-shadow: 0 0 14px rgba(0,245,255,0.65);  }
+  .neon-purple { color: var(--neon-purple); text-shadow: 0 0 14px rgba(191,0,255,0.65);  }
+  .neon-green  { color: var(--neon-green);  text-shadow: 0 0 14px rgba(0,255,136,0.65);  }
+  .neon-orange { color: var(--neon-orange); text-shadow: 0 0 14px rgba(255,107,0,0.65);  }
+
+  /* ── Skeleton shimmer ───────────────────────────────────────────────────── */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.03) 25%,
+      rgba(255,255,255,0.09) 50%,
+      rgba(255,255,255,0.03) 75%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  /* ── Level-Up Button ────────────────────────────────────────────────────── */
+  .btn-level-up {
+    position: relative;
+    width: 100%;
+    padding: 0.55rem 1rem;
+    border-radius: 0.625rem;
+    border: 1px solid rgba(0, 245, 255, 0.22);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 245, 255, 0.07) 0%,
+      rgba(191, 0, 255, 0.07) 100%
+    );
+    color: #7dd3f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  }
+
+  .btn-level-up::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 245, 255, 0.14) 0%,
+      rgba(191, 0, 255, 0.14) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .btn-level-up:hover:not(:disabled)::before { opacity: 1; }
+
+  .btn-level-up:hover:not(:disabled) {
+    border-color: rgba(0, 245, 255, 0.5);
+    box-shadow: 0 0 22px rgba(0, 245, 255, 0.22), 0 0 44px rgba(0, 245, 255, 0.08);
+    color: #ffffff;
+  }
+
+  .btn-level-up:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── Custom scrollbar ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: rgba(0,245,255,0.3); }
+
+/* ── Selection ──────────────────────────────────────────────────────────────── */
+::selection { background: rgba(0,245,255,0.25); color: #fff; }
