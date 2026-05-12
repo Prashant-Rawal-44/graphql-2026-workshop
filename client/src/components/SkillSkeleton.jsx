@@ -1,31 +1,12 @@
-// ─── SkillSkeleton ────────────────────────────────────────────────────────────
-// Placeholder rendered while GetSkills is in-flight.
-// Uses the .skeleton-shimmer utility for the animated gradient sweep.
-// Great for your talk: demonstrates Apollo loading state primitives.
-
 export default function SkillSkeleton() {
   return (
-    <div className="glass-card p-5 flex flex-col gap-4 overflow-hidden">
-
-      {/* Category badge skeleton */}
-      <div className="flex items-center justify-between">
-        <div className="skeleton-shimmer h-6 w-24 rounded-lg" />
-      </div>
-
-      {/* Title skeleton */}
-      <div className="skeleton-shimmer h-4 w-3/4 rounded-md" />
-
-      {/* Level area skeleton */}
-      <div className="space-y-2.5">
-        <div className="flex justify-between items-center">
-          <div className="skeleton-shimmer h-2.5 w-10 rounded" />
-          <div className="skeleton-shimmer h-6 w-8 rounded" />
-        </div>
-        <div className="skeleton-shimmer h-1.5 w-full rounded-full" />
-      </div>
-
-      {/* Button skeleton */}
-      <div className="skeleton-shimmer h-9 w-full rounded-xl mt-auto" />
+    <div className="skill-card skeleton-card">
+      <div className="skeleton-shimmer" style={{width:'60%',height:'18px',borderRadius:'4px',marginBottom:'8px'}} />
+      <div className="skeleton-shimmer" style={{width:'35%',height:'12px',borderRadius:'4px',marginBottom:'12px'}} />
+      <div className="skeleton-shimmer" style={{width:'100%',height:'10px',borderRadius:'4px',marginBottom:'6px'}} />
+      <div className="skeleton-shimmer" style={{width:'80%',height:'10px',borderRadius:'4px',marginBottom:'16px'}} />
+      <div className="skeleton-shimmer" style={{width:'100%',height:'6px',borderRadius:'3px',marginBottom:'12px'}} />
+      <div className="skeleton-shimmer" style={{width:'100%',height:'34px',borderRadius:'6px'}} />
     </div>
   );
 }

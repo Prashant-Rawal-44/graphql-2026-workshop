@@ -1,23 +1,18 @@
-// ─── Toast ────────────────────────────────────────────────────────────────────
-// Slide-in notification rendered when a subscription event arrives.
-// Wrapped in <AnimatePresence> in App.jsx so exit animations fire on unmount.
-
 import { motion } from 'framer-motion';
 
-export default function Toast({ message }) {
+export default function Toast({ message, onDone }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 72, scale: 0.9 }}
-      animate={{ opacity: 1, x:  0, scale: 1   }}
-      exit={{    opacity: 0, x: 72, scale: 0.9 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-      className="glass-card pointer-events-auto px-4 py-3 max-w-xs"
-      style={{
-        borderColor: 'rgba(0,245,255,0.22)',
-        background:  'rgba(0,245,255,0.05)',
+      className="toast"
+      initial={{ x: 120, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 120, opacity: 0 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+      onAnimationComplete={(_def) => {
+        if (_def.opacity === 0) onDone();
       }}
     >
-      <p className="font-mono text-sm text-cyan-300">{message}</p>
+      {message}
     </motion.div>
   );
 }
