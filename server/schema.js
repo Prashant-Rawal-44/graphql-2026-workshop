@@ -1,81 +1,50 @@
 import { gql } from 'graphql-tag';
 
-// WHY GRAPHQL OVER REST?
-// REST needs: GET /skills, GET /skills/:id, GET /categories, GET /stats, PATCH /skills/:id
-// GraphQL: ONE endpoint, client asks EXACTLY what it needs — no over-fetching, no under-fetching.
+// ── STEP 1: Define your GraphQL Schema ─────────────────────────────────────────
+// The schema is the CONTRACT between client and server.
+// Unlike REST where the shape is implicit, here it is EXPLICIT and self-documenting.
+//
+// YOUR TASKS:
+//   1a. Define a Skill type with fields: id, title, category, level, maxLevel,
+//       isMastered, description, tags (array), xp
+//
+//   1b. Define a Category type with: id, name, description, color, icon
+//       Add nested fields: skills (array of Skill), skillCount, avgLevel
+//
+//   1c. Define a DashboardStats type with: totalSkills, masteredSkills, totalXP, avgLevel
+//
+//   1d. Define a RestVsGraphQL type with: feature, rest, graphql, winner
+//
+//   1e. Define Query type with these operations:
+//       - getSkills(category, minLevel, tags) -> [Skill!]!
+//       - getSkillById(id) -> Skill
+//       - getCategories -> [Category!]!
+//       - getDashboardStats -> DashboardStats!
+//       - getRestVsGraphQLComparison -> [RestVsGraphQL!]!
+//
+// HINT: Use ! for non-null, [Type!]! for non-null array of non-null items
+// WHY: A strongly typed schema means the server and client always agree on shape.
+//      Zero runtime surprises. Compare this to REST where you discover mismatches
+//      in production.
+// ──────────────────────────────────────────────────────────────────────────────
 
 export const typeDefs = gql`
-  # Core domain types — strongly typed, self-documenting
-  type Skill {
-    id: ID!
-    title: String!
-    category: String!
-    level: Int!
-    maxLevel: Int!
-    isMastered: Boolean!
-    description: String!
-    tags: [String!]!
-    xp: Int!
-    # Nested type — resolved only when client requests it
-    categoryInfo: Category
-  }
+  # TODO 1a: Define Skill type
+  # type Skill { ... }
 
-  type Category {
-    id: ID!
-    name: String!
-    description: String!
-    color: String!
-    icon: String!
-    # These fields are ONLY resolved when requested (no over-fetching)
-    skills: [Skill!]!
-    skillCount: Int!
-    avgLevel: Float!
-  }
+  # TODO 1b: Define Category type with nested skills
+  # type Category { ... }
 
-  # Aggregated stats — one GraphQL query replaces 3+ REST round trips
-  type DashboardStats {
-    totalSkills: Int!
-    masteredSkills: Int!
-    totalXP: Int!
-    avgLevel: Float!
-    categoryBreakdown: [CategoryStat!]!
-  }
+  # TODO 1c: Define DashboardStats and CategoryStat types
+  # type DashboardStats { ... }
+  # type CategoryStat { ... }
 
-  type CategoryStat {
-    category: String!
-    count: Int!
-    avgLevel: Float!
-    totalXP: Int!
-    color: String!
-  }
+  # TODO 1d: Define RestVsGraphQL comparison type
+  # type RestVsGraphQL { ... }
 
-  # Demo comparison type — rendered in the REST vs GraphQL panel
-  type RestVsGraphQL {
-    feature: String!
-    rest: String!
-    graphql: String!
-    winner: String!
-  }
-
-  # ONE endpoint handles all these queries (REST needs 5+ routes)
+  # TODO 1e: Define Query type
   type Query {
-    getSkills(category: String, minLevel: Int, tags: [String]): [Skill!]!
-    getSkillById(id: ID!): Skill
-    getCategories: [Category!]!
-    getCategoryByName(name: String!): Category
-    getDashboardStats: DashboardStats!
-    getRestVsGraphQLComparison: [RestVsGraphQL!]!
-  }
-
-  type Mutation {
-    levelUpSkill(id: ID!): Skill!
-    addTagToSkill(id: ID!, tag: String!): Skill!
-    resetSkill(id: ID!): Skill!
-  }
-
-  # REAL-TIME — impossible with plain REST without polling hacks
-  type Subscription {
-    skillLeveledUp: Skill!
-    categoryUpdated(categoryName: String!): Category!
+    hello: String
+    # Add your queries here...
   }
 `;
